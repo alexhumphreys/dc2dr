@@ -4,7 +4,7 @@ import sys
 def parse_compose_file(yaml_file):
     services = yaml_file['services']
     parsed_services = []
-    for k, v in services.iteritems():
+    for k, v in services.items():
         parsed_services.append(parse_service(k, v))
 
     commands = []
@@ -49,7 +49,7 @@ def parse_expose(exports):
 
 def parse_environment(envs):
     string = ""
-    for k, v in envs.iteritems():
+    for k, v in envs.items():
         string += ' -e {0}:"{1}" '.format(k, v)
     return string
 

@@ -13,9 +13,8 @@ import pytest
 from contextlib import contextmanager
 from click.testing import CliRunner
 
-from dc2dr import dc2dr
 from dc2dr import cli
-
+from dc2dr import parser
 
 class TestDc2dr(object):
 
