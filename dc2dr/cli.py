@@ -1,14 +1,22 @@
 # -*- coding: utf-8 -*-
 
 import click
+import yaml
+import sys
+import dc2dr
+
+def parse_yml(path):
+    f = open(path)
+    y = yaml.safe_load(f)
+
+    run_commands = dc2dr.parse_compose_file(y)
+    for c in run_commands:
+	print(c)
 
 @click.command()
-def main(args=None):
-    """Console script for dc2dr"""
-    click.echo("Replace this message by putting your code into "
-                "dc2dr.cli.main")
-    click.echo("See click documentation at http://click.pocoo.org/")
-
+@click.argument('f', type=click.Path(exists=True))
+def main(f):
+    parse_yml(f)
 
 if __name__ == "__main__":
     main()

@@ -27,9 +27,9 @@ class TestDc2dr(object):
         pass
     def test_command_line_interface(self):
         runner = CliRunner()
-        result = runner.invoke(cli.main)
+        result = runner.invoke(cli.main, ['tests/example-compose.yml'])
         assert result.exit_code == 0
-        assert 'dc2dr.cli.main' in result.output
+        assert 'docker run' in result.output
         help_result = runner.invoke(cli.main, ['--help'])
         assert help_result.exit_code == 0
         assert '--help  Show this message and exit.' in help_result.output

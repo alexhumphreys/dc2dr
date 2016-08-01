@@ -1,0 +1,40 @@
+version: '2'
+services:
+
+  db:
+    image: mysql
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: "test"
+      MYSQL_USER: "user"
+      MYSQL_PASSWORD: "super-secret"
+      MYSQL_DATABASES: "test staging production"
+    command: ["--character-set-server=utf8", "--collation-server=utf8_unicode_ci", "--max-connections=1000"]
+  web:
+    image: rails
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+  api1:
+    image: someuser/api1:latest
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    expose:
+      - '3000'
+      - '3001'
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+    depends_on:
+      - db
+  api2:
+    image: someuser/api2:3.1.5
+    ports:
+      - "3002:3002"
+    links:
+      - db
+      - api1
