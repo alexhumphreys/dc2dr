@@ -1,11 +1,20 @@
 import yaml
 import sys
+import sorting
+
+def run_commands(path):
+    f = open(path)
+    y = yaml.safe_load(f)
+    return parse_compose_file(y)
 
 def parse_compose_file(yaml_file):
     services = yaml_file['services']
+    sorted_services = sorting.sort(services)
+
     parsed_services = []
-    for k, v in services.items():
-        parsed_services.append(parse_service(k, v))
+    for d in sorted_services:
+        for k, v in d.items():
+            parsed_services.append(parse_service(k, v))
 
     commands = []
     for s in parsed_services:
@@ -13,7 +22,7 @@ def parse_compose_file(yaml_file):
     return commands
 
 def parse_service(name, service):
-    docker_args = {}
+    docker_args = {'name': name}
     docker_args['image'] = parse_image(service['image'])
     for arg in ['depends_on', 'links', 'ports', 'expose', 'environment', 'command']:
         if arg in service:
@@ -22,7 +31,7 @@ def parse_service(name, service):
 
 def write_run_command(service):
     command = ""
-    prefix = "docker run -d "
+    prefix = "docker run -d --name={0} ".format(service['name'])
     command += prefix
     for arg in ['depends_on', 'links', 'ports', 'expose', 'environment']:
         if arg in service:

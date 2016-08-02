@@ -28,7 +28,33 @@ Convert Docker Compose to Docker Run Commands
 Features
 --------
 
-* TODO
+Takes a docker-compose file, gives back a list of docker run commands.
+
+The supported docker-compose keys are:
+
+  - `depends_on`
+  - `links`
+  - `ports`
+  - `expose`
+  - `environment`
+  - `command`
+  - `image`
+
+Usage
+-----
+
+From this dir you can run:
+
+```
+python ./dc2dr/cli.py tests/example-compose.yml
+```
+
+Or from in a python script:
+
+```
+from dc2dr import parser
+run_commands = parser.run_commands('path/to/compose.yml')
+```
 
 Credits
 ---------
