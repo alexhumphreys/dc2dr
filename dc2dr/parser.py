@@ -59,7 +59,7 @@ def parse_expose(exports):
 def parse_environment(envs):
     string = ""
     for k, v in envs.items():
-        string += ' -e {0}:"{1}" '.format(k, v)
+        string += ' -e {0}="{1}" '.format(k, v)
     return string
 
 def parse_command(command):
