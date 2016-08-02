@@ -22,7 +22,7 @@ def parse_service(name, service):
 
 def write_run_command(service):
     command = ""
-    prefix = "docker run "
+    prefix = "docker run -d "
     command += prefix
     for arg in ['depends_on', 'links', 'ports', 'expose', 'environment']:
         if arg in service:
