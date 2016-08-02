@@ -21,7 +21,7 @@ test_requirements = [
 
 setup(
     name='dc2dr',
-    version='0.1.0',
+    version='0.2.0',
     description="Convert Docker Compose to Docker Run Commands",
     long_description=readme + '\n\n' + history,
     author="Alex Humphreys",
