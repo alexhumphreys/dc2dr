@@ -14,6 +14,9 @@ def sort(services):
         if 'depends_on' in v:
             for d in v['depends_on']:
                 dependencies[name].update({d})
+    if dependencies == {}:
+        # TODO tidy up for this case
+        return [services]
     order = flatten(tsort(dependencies, smallest_first=True))
     sorted_services = []
     for name in order:

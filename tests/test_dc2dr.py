@@ -42,6 +42,20 @@ class TestDc2dr(object):
         assert help_result.exit_code == 0
         assert '--help  Show this message and exit.' in help_result.output
 
+    def test_no_links(self):
+        runner = CliRunner()
+        result = runner.invoke(cli.main, ['tests/no-links.yml'])
+        assert result.exit_code == 0
+        commands = [
+                'docker run -d --name=nats  -p 4222:4222  --expose=4222 nats:0.8.1',
+                'docker run -d --name=ldapserver  -p 9389:389 openldap --loglevel debug',
+                'docker run -d --name=mysql  -p 3306:3306  --expose=3306',
+                '-e MYSQL_PASSWORD="super-secret"',
+                '-e MYSQL_USER="user"',
+                'advancedtelematic/mariadb:stable --character-set-server=utf8 --collation-server=utf8_unicode_ci --max-connections=1000']
+        for s in commands:
+            assert s in result.output
+
     @classmethod
     def teardown_class(cls):
         pass
