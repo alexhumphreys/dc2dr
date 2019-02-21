@@ -1,6 +1,30 @@
 import yaml
 import sys
-import sorting
+from tsort import tsort
+
+def flatten(l):
+    return flatten(l[0]) + (flatten(l[1:]) if len(l) > 1 else []) if type(l) is list else [l]
+
+def sort(services):
+    dependencies = {}
+    for name, v in services.items():
+        if 'links' in v or 'depends_on' in v:
+            dependencies[name] = set()
+        if 'links' in v:
+            for link in v['links']:
+                dependencies[name].update({link})
+        if 'depends_on' in v:
+            for d in v['depends_on']:
+                dependencies[name].update({d})
+    if dependencies == {}:
+        # TODO tidy up for this case
+        return [services]
+    order = flatten(tsort(dependencies, smallest_first=True))
+    sorted_services = []
+    for name in order:
+        sorted_services.append({name: services[name]})
+    return sorted_services
+
 
 def run_commands(path):
     f = open(path)
@@ -9,7 +33,7 @@ def run_commands(path):
 
 def parse_compose_file(yaml_file):
     services = yaml_file['services']
-    sorted_services = sorting.sort(services)
+    sorted_services = sort(services)
 
     parsed_services = []
     for d in sorted_services:
