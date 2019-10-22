@@ -12,7 +12,7 @@ with open('HISTORY.rst') as history_file:
 requirements = [
     'Click>=6.0',
     'pytsort==0.1.2',
-    'PyYAML==3.11'
+    'PyYAML==5.1'
 ]
 
 test_requirements = [
