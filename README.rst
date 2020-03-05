@@ -1,7 +1,10 @@
 ===============================
 dc2dr
 ===============================
+NO LONGER MAINTAINED
+--------------------
 
+See this fork for a more up to date version: https://github.com/cgq-qgc/dc2dr
 
 .. image:: https://img.shields.io/pypi/v/dc2dr.svg
         :target: https://pypi.python.org/pypi/dc2dr
